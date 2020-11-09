@@ -52,3 +52,19 @@ consul服务界面
     http://192.168.33.12:8500/
 # 安装成功后
  执行：    make run
+
+### 偶遇问题：
+    etcd undefined: resolver.BuildOption
+    需要将grpc1.27.0 替换成grpc1.26.0版本
+    google.golang.org/grpc v1.27.0
+    替换成
+    google.golang.org/grpc v1.26.0
+    
+    具体步骤:
+    
+    先删除pkg/mod: rm -rf  或手动删除
+    再替版本: go mod edit -require=google.golang.org/grpc@v1.26.0
+    下载指定版本v1.26.0: go get -u -x google.golang.org/grpc@v1.26.0
+    然后再go mod init
+    再运行程:make run
+    
