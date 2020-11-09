@@ -1,4 +1,4 @@
-# 基于go-micro 实现一个订单微服务
+# 基于go-micro v2.0 实现一个订单微服务
     github.com/go-micro/micro/v2
 
 ### 注意： 

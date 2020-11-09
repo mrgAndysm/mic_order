@@ -2,34 +2,55 @@ package main
 
 import (
 	"log"
+	"os"
 	"prott/protoorder"
 	"prott/service/grpc"
 
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/registry"
-	"github.com/micro/go-plugins/registry/consul/v2"
+	"prott/apps/routers"
+	"prott/com"
+
+	micro "github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/web"
 )
 
 func main() {
-	//新建一个consul注册的地址，也就是我们consul服务启动的机器ip+端口
-	reg := consul.NewRegistry(func(op *registry.Options) {
-		op.Addrs = []string{
-			"0.0.0.0:8500",
+
+	// consul 注册服务
+	c := new(com.ConsulServer)
+	c.ConsulServerInit()
+
+	if os.Args[1] == "w" {
+		//初始化路由
+		ginRouter := routers.InitRouters()
+		// web服务
+		websrv := web.NewService(
+			web.Handler(ginRouter),
+			web.Name("orderserver"),
+			web.Address(":8001"),
+			web.Handler(ginRouter),
+			web.Registry(c.ConsulReg),
+		)
+
+		if err := websrv.Run(); err != nil {
+			log.Fatal(err)
 		}
-	})
 
-	srv := micro.NewService(
-		//micro.Name服务端向consul注册服务名称 客户端需要通过该名称来进行调用
-		micro.Name("go.micro.svr.order"),
-		micro.Version("latest"),
-		micro.Registry(reg),
-	)
+	} else {
+		// grpc微服务
+		srv := micro.NewService(
+			//micro.Name服务端向consul注册服务名称 客户端需要通过该名称来进行调用
+			micro.Name("go.micro.svr.order"),
+			micro.Version("latest"),
+			micro.Registry(c.ConsulReg),
+		)
 
-	srv.Init()
-	protoorder.RegisterOrderServiceHandler(srv.Server(), new(grpc.OrderService))
+		srv.Init()
+		protoorder.RegisterOrderServiceHandler(srv.Server(), new(grpc.OrderService))
 
-	if err := srv.Run(); err != nil {
-		log.Fatal(err)
+		if err := srv.Run(); err != nil {
+			log.Fatal(err)
+		}
+
 	}
 
 }
