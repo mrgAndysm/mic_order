@@ -50,8 +50,14 @@ leader节点
 consul服务界面
 
     http://192.168.33.12:8500/
-# 安装成功后
- 执行：    make run
+# 安装成功后，
+服务端执行：    
+
+    make run
+
+客户端测试：   
+
+    make co
 
 ### 偶遇问题：
     etcd undefined: resolver.BuildOption

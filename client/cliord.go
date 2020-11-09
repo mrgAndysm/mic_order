@@ -1,9 +1,10 @@
 package main
 
 import (
-	"log"
+	"context"
+	"fmt"
+
 	"prott/protoorder"
-	"prott/service/grpc"
 
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/registry"
@@ -17,19 +18,23 @@ func main() {
 			"0.0.0.0:8500",
 		}
 	})
-
-	srv := micro.NewService(
+	service := micro.NewService(
 		//micro.Name服务端向consul注册服务名称 客户端需要通过该名称来进行调用
 		micro.Name("go.micro.svr.order"),
 		micro.Version("latest"),
 		micro.Registry(reg),
 	)
 
-	srv.Init()
-	protoorder.RegisterOrderServiceHandler(srv.Server(), new(grpc.OrderService))
+	service.Init()
 
-	if err := srv.Run(); err != nil {
-		log.Fatal(err)
+	order := protoorder.NewOrderService("go.micro.svr.order", service.Client())
+
+	res, err := order.CreateOrder(context.TODO(), &protoorder.QOrderInfo{
+		GoodId: 232323,
+		Price:  6,
+	})
+	if err != nil {
+		fmt.Println(err)
 	}
-
+	fmt.Println(res.OrderId)
 }
