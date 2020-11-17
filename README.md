@@ -7,7 +7,7 @@
 
 依赖：autoconf automake libtool curl make g++ unzip libffi-dev
 
-    下载：https://github.com/protocolbuffers/protobuf
+    下载：https://github.com/protocolbuffers/protobuf4.0
 
     cd protoc
 

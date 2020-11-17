@@ -1,6 +1,5 @@
 syntax = "proto3";
-// package go.micro.svr.order;
-option go_package = ".;protoorder";
+package protoorder;
 
 service OrderService {
     rpc CreateOrder (QOrderInfo) returns (ROrderResult) {}
