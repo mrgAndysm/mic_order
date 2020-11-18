@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 	"os"
-	"prott/protoorder"
-	"prott/service/grpc"
 
-	"prott/apps/routers"
-	"prott/com"
+	"github.com/mrgAndysm/mic_order/protoorder"
+	"github.com/mrgAndysm/mic_order/service/grpc"
+
+	"github.com/mrgAndysm/mic_order/apps/routers"
+	"github.com/mrgAndysm/mic_order/com"
 
 	micro "github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/web"

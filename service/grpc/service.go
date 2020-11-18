@@ -2,7 +2,8 @@ package grpc
 
 import (
 	"context"
-	"prott/protoorder"
+
+	"github.com/mrgAndysm/mic_order/protoorder"
 )
 
 // OrderService 订单服务

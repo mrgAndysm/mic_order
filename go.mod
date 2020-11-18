@@ -1,4 +1,4 @@
-module prott
+module github.com/mrgAndysm/mic_order
 
 go 1.15
 
