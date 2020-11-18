@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mrgAndysm/mic_user/com"
-	"github.com/mrgAndysm/mic_user/protoorder"
+	"github.com/mrgAndysm/mic_order/com"
+	"github.com/mrgAndysm/mic_order/protoorder"
 
 	"github.com/micro/go-micro/v2"
 )
