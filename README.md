@@ -37,15 +37,18 @@
 
 # docker - consul部署
 
+拉镜像
+    docker pull consul
+
 leader节点
 
-    docker run -d -p 8500:8500 -v /data/consul:/consul/data -e CONSUL_BIND_INTERFACE='eth0' --name=consul_server_1 4f7b214361a7 agent -server -bootstrap -ui -node=1 -client='0.0.0.0'
+    docker run -d -p 8500:8500 -v /data/consul:/consul/data -e CONSUL_BIND_INTERFACE='eth0' --name=consul_server_1 2823bc69f80f agent -server -bootstrap -ui -node=1 -client='0.0.0.0'
 
 集群从节点
 
-    docker run -d -e CONSUL_BIND_INTERFACE='eth0' --name=consul_server_2 4f7b214361a7 agent -client -node=clint -join='172.17.0.2' -client='0.0.0.0'
+    docker run -d -e CONSUL_BIND_INTERFACE='eth0' --name=consul_server_2 2823bc69f80f agent -client -node=clint -join='172.17.0.2' -client='0.0.0.0'
 
-    docker run -d -e CONSUL_BIND_INTERFACE='eth0' --name=consul_server_3 4f7b214361a7 agent -client -node=clint2 -join='172.17.0.2' -client='0.0.0.0'
+    docker run -d -e CONSUL_BIND_INTERFACE='eth0' --name=consul_server_3 2823bc69f80f agent -client -node=clint2 -join='172.17.0.2' -client='0.0.0.0'
 
 consul服务界面
 
